@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, VT323 } from "next/font/google";
 import "./globals.css";
+import TanstackProvider from "@/lib/tanstackProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -9,6 +10,11 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const vt323 = VT323({
+  weight: "400",
   subsets: ["latin"],
 });
 
@@ -23,12 +29,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <TanstackProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} ${vt323.className} antialiased`}
+        >
+          {children}
+        </body>
+      </html>
+    </TanstackProvider>
   );
 }
