@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, VT323 } from "next/font/google";
 import "./globals.css";
 import TanstackProvider from "@/lib/tanstackProvider";
+import Navbar from "@/components/Navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,8 +33,9 @@ export default function RootLayout({
     <TanstackProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} ${vt323.className} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} ${vt323.className} antialiased p-1`}
         >
+        <Navbar />
           {children}
         </body>
       </html>

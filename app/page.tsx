@@ -1,48 +1,32 @@
-"use client";
 import fetchData from "@/utils/fetcher";
 import PokemonList from "./_components/PokemonList";
-import { useEffect, useState } from "react";
-import SearchPokemon from "./_components/SearchPokemon";
+import SearchPokemon from "../components/SearchPokemon";
+import Header from "@/components/ui/header";
+import TopPokemon from "./_components/TopPokemon";
 
-interface ListPokemonProps {
-  name: string;
-  url: string;
-  image: string;
-  id: number;
-}
-const Home = () => {
-  const [listPokemon, setListPokemon] = useState<ListPokemonProps[] | undefined>([])
 
-  useEffect(() => {
-    const getListPokemon = async () => {
-      try {
-        const data = await fetchData({ endpoint: "/pokemon" });
+const Home = async () => {
+  type Response = {
+    results: {
+      name: string;
+      url: string;
+      image: string;
+      id: number;
+    }[];
+  }
+  const data: Response = await fetchData({ endpoint: "/pokemon?limits=100" });
+  
 
-        const getPokemonDetails = await Promise.all(
-          data.results.map(async (pokemon: { name: string, url: string }) => {
-            const res = await fetch(pokemon.url);
-            const pokemonDetails: PokemonDetail = await res.json();
-            console.log(pokemonDetails)
-            return {
-              name: pokemon.name,
-              url: pokemon.url,
-              image: pokemonDetails.sprites.front_default,
-              id: pokemonDetails.id
-            }
-          })
-        )
-        setListPokemon(getPokemonDetails)
-      } catch (error) {
-        throw new Error("Error get list pokemon")
-      }
-    }
-    getListPokemon() 
-  }, [])  
+  if (!data) return <div>No data available</div>;
 
   return (
-    <div className="h-screen flex justify-center items-center">
-      <SearchPokemon />
-      <PokemonList data={listPokemon} />
+    <div className="flex flex-col md:justify-center items-center space-y-10">
+      <div className="md:w-[500px] text-center">
+        <Header text="Search Pokemon" classnames="no-underline" />
+        <SearchPokemon />
+      </div>
+      <TopPokemon />
+      <PokemonList data={data} />
     </div>
   );
 };

@@ -5,7 +5,7 @@ interface PokemonDetail {
   forms: Ability[];
   game_indices: Gameindex[];
   height: number;
-  held_items: any[];
+  held_items: HeldItems[];
   id: number;
   is_default: boolean;
   location_area_encounters: string;
@@ -43,6 +43,13 @@ interface Sprites {
   front_shiny_female: null;
   other: Other;
   versions: Versions;
+}
+
+interface HeldItems {
+  item: {
+    name: string;
+    url: string;
+  };
 }
 
 interface Versions {
