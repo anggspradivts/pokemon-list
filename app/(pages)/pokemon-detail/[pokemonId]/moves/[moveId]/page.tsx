@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 
 const PokemonMovesDetail = () => {
-  const { moveId, pokemonId } = useParams();
+  const { moveId } = useParams();
 
   const { data, error, isLoading } = useQuery<PokemonMove | undefined>({
     queryKey: ["POKEMON_MOVES", moveId],

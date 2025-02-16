@@ -27,23 +27,19 @@ const PokemonList = ({ data }: PokemonListProps) => {
 
   useEffect(() => {
     const getListPokemon = async () => {
-      try {
-        const getPokemonDetails = await Promise.all(
-          data.results.map(async (pokemon: { name: string; url: string }) => {
-            const res = await fetch(pokemon.url);
-            const pokemonDetails: PokemonDetail = await res.json();
-            return {
-              name: pokemon.name,
-              url: pokemon.url,
-              image: pokemonDetails.sprites.front_default,
-              id: pokemonDetails.id,
-            };
-          })
-        );
-        setListPokemon(getPokemonDetails);
-      } catch (error) {
-        throw new Error("Error get list pokemon");
-      }
+      const getPokemonDetails = await Promise.all(
+        data.results.map(async (pokemon: { name: string; url: string }) => {
+          const res = await fetch(pokemon.url);
+          const pokemonDetails: PokemonDetail = await res.json();
+          return {
+            name: pokemon.name,
+            url: pokemon.url,
+            image: pokemonDetails.sprites.front_default,
+            id: pokemonDetails.id,
+          };
+        })
+      );
+      setListPokemon(getPokemonDetails);
     };
     getListPokemon();
   }, [data]);

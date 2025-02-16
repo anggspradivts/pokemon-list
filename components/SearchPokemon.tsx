@@ -1,6 +1,5 @@
 "use client";
 import fetchData from "@/utils/fetcher";
-import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
@@ -11,30 +10,25 @@ interface PokemonSearch {
 }
 const SearchPokemon = () => {
   const [keyword, setKeyword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [pokemonList, setPokemonList] = useState<PokemonSearch[] | undefined>(
     []
   );
 
   useEffect(() => {
     const triggerFetchData = async () => {
-      try {
-        const data = await fetchData({ endpoint: "/pokemon?limit=2000" });
-        const getPokemonId = data.results.map(
-          (item: { name: string; url: string }) => {
-            const splittedUrl = item.url.split("/");
-            const pokemonId = splittedUrl[splittedUrl.length - 2];
-            return {
-              name: item.name,
-              url: item.url,
-              id: pokemonId,
-            };
-          }
-        );
-        setPokemonList(getPokemonId);
-      } catch (error) {
-        throw new Error("Error fetch search pokemon");
-      }
+      const data = await fetchData({ endpoint: "/pokemon?limit=2000" });
+      const getPokemonId = data.results.map(
+        (item: { name: string; url: string }) => {
+          const splittedUrl = item.url.split("/");
+          const pokemonId = splittedUrl[splittedUrl.length - 2];
+          return {
+            name: item.name,
+            url: item.url,
+            id: pokemonId,
+          };
+        }
+      );
+      setPokemonList(getPokemonId);
     };
     triggerFetchData();
   }, []);

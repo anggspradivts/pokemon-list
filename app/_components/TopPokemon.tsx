@@ -13,7 +13,6 @@ const TopPokemon = () => {
   >([]);
 
   useEffect(() => {
-    if (topPokemon) setIsLoading(false);
     const triggerGetTopPokemon = async () => {
       try {
         const getTopPokemon = await Promise.all(
@@ -34,6 +33,8 @@ const TopPokemon = () => {
       } catch (error) {
         console.log("error while fetching top pokemon", error);
         throw new Error("Error get top pokemon");
+      } finally {
+        setIsLoading(false);
       }
     };
     triggerGetTopPokemon();
